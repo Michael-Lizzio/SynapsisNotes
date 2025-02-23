@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transcription</title>
+    <link rel="stylesheet" href="assets/css/transcription.css">
+</head>
+<body>
+    <h2>Transcription</h2>
+    <div id="transcriptText"></div>
+    <button id="clearTranscript">Clear Transcript</button>
+
+    <script>
+        function loadTranscript() {
+            document.getElementById("transcriptText").textContent = localStorage.getItem("transcript") || "No transcript available.";
+        }
+
+        document.getElementById("clearTranscript").addEventListener("click", () => {
+            localStorage.removeItem("transcript");
+            loadTranscript();
+        });
+
+        // Listen for localStorage changes from other pages
+        window.addEventListener("storage", (event) => {
+            if (event.key === "transcript") {
+                loadTranscript();
+            }
+        });
+
+        loadTranscript(); // Initial load
+    </script>
+</body>
+</html>

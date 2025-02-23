@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Sender</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Test audio file
+            const testAudioFile = "assets/audio/test1.mp3";
+
+            // Send the test audio file to test_receiver.js
+            function sendTestFile() {
+                console.log(`Sending test audio file: ${testAudioFile}`);
+                window.postMessage({ file: testAudioFile }, "*");
+            }
+
+            // Trigger the sendTestFile function after a delay to ensure everything is loaded
+            setTimeout(sendTestFile, 1000);
+        });
+    </script>
+    <script src="test_receiver.js"></script>
+
+</head>
+<body>
+    <h1>Test Sender</h1>
+    <p>This page will send a test audio file to test_receiver.js shortly after loading.</p>
+</body>
+</html>

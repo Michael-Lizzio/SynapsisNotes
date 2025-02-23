@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symposium Notes - AI Note Taking Tool</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Symposium Notes</h1>
+        <p>Your AI-Powered Note Taking Assistant</p>
+        <button id="startRecord">Start Recording</button>
+        <button id="stopRecord" disabled>Stop Recording</button>
+    </header>
+
+    <div class="container">
+        <div class="left-panel">
+            <iframe src="notes.html" id="notesFrame"></iframe>
+        </div>
+        <div class="right-panel">
+            <iframe src="transcription.html" id="transcriptionFrame"></iframe>
+        </div>
+    </div>
+
+    <script type="module" src="assets/js/listener.js"></script>
+    <script type="module" src="assets/js/breakout.js"></script>
+</body>
+</html>
