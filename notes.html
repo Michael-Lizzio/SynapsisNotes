@@ -7,6 +7,9 @@
   <link rel="stylesheet" href="assets/css/notes.css" />
 </head>
 <body>
+  <!-- Notification Container -->
+  <div id="notification-container"></div>
+
   <h2>AI-Generated Notes</h2>
   <ul id="notesList"></ul>
   <div class="buttons-container">
@@ -18,70 +21,6 @@
   <!-- Hidden file input for import -->
   <input type="file" id="notesFileInput" accept=".txt" style="display: none;">
 
-  <script>
-    function loadNotes() {
-      const notesContainer = document.getElementById("notesList");
-      notesContainer.innerHTML = ""; 
-      const notes = localStorage.getItem("notes") || "";
-      const notesArray = notes.split("\n").filter(note => note.trim());
-      notesArray.forEach(note => {
-        const li = document.createElement("li");
-        li.textContent = note;
-        notesContainer.appendChild(li);
-      });
-    }
-
-    // Clear notes
-    document.getElementById("clearNotes").addEventListener("click", () => {
-      localStorage.removeItem("notes");
-      loadNotes();
-    });
-
-    // Copy notes to clipboard
-    document.getElementById("copyNotes").addEventListener("click", () => {
-      const notes = localStorage.getItem("notes") || "";
-      navigator.clipboard.writeText(notes)
-        .then(() => alert("Notes copied to clipboard!"))
-        .catch(() => alert("Failed to copy notes."));
-    });
-
-    // Import notes from a txt file
-    document.getElementById("importNotes").addEventListener("click", () => {
-      document.getElementById("notesFileInput").click();
-    });
-    document.getElementById("notesFileInput").addEventListener("change", (event) => {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const text = e.target.result;
-        localStorage.setItem("notes", text);
-        loadNotes();
-        alert("Notes imported successfully!");
-      };
-      reader.readAsText(file);
-    });
-
-    // Export notes to a txt file
-    document.getElementById("exportNotes").addEventListener("click", () => {
-      const notes = localStorage.getItem("notes") || "";
-      const blob = new Blob([notes], { type: "text/plain" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "notes.txt";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    });
-
-    // Listen for localStorage changes from other pages
-    window.addEventListener("storage", (event) => {
-      if (event.key === "notes") loadNotes();
-    });
-
-    loadNotes(); // Initial load
-  </script>
+  <script src="assets/js/notes.js"></script>
 </body>
 </html>
