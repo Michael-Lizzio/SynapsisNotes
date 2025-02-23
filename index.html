@@ -25,9 +25,12 @@
     </div>
 
     <div id="assistantButton">
-        <button onclick="showPopup()">🗣️ Chat with Assistant</button>
+        <button onclick="showPopup()" style="background: transparent; border: none; padding: 0;">
+            <img src="assets/images/Bricky.png" alt="Chat with Assistant" style="width: 75px; height: auto;">
+        </button>
         <div id="assistantPopup" style="display: none;">
-            <iframe id="assistantFrame" src=""></iframe>
+            <button id="closePopup" onclick="closePopup()" style="position: absolute; top: 5px; right: 5px;">X</button>
+            <iframe id="assistantFrame" src="" style="margin-top: 30px;"></iframe>
         </div>
     </div>
 
@@ -45,6 +48,12 @@
                 popup.style.display = "none";
                 frame.src = "";
             }
+        }
+
+        function closePopup() {
+            const popup = document.getElementById("assistantPopup");
+            popup.style.display = "none";
+            document.getElementById("assistantFrame").src = "";
         }
     </script>
 </body>
