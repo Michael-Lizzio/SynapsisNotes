@@ -56,6 +56,7 @@
 
     // Export transcript to a txt file
     document.getElementById("exportTranscript").addEventListener("click", () => {
+      console.log("export");
       const transcript = localStorage.getItem("transcript") || "";
       const blob = new Blob([transcript], { type: "text/plain" });
       const url = URL.createObjectURL(blob);

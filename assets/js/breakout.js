@@ -1,3 +1,16 @@
+const DEFAULT_CONFIG = {
+    calibrationDuration: 5000,
+    speechStartThresholdMultiplier: 2,
+    speechStopThresholdMultiplier: 1.2,
+    speechStartDuration: 2300,
+    silenceDuration: 1900,
+    minSegmentDuration: 1000,
+    minimumRecordingLength: 10000,
+    baseLineMultiplier: 1.4,
+    apiKey: ""
+};
+
+
 function getConfig() {
     return JSON.parse(localStorage.getItem("settings")) || DEFAULT_CONFIG;
 }
@@ -13,6 +26,7 @@ export function handleTranscription(transcript) {
     console.log("Transcription:", transcript);
     appendToTranscript(transcript);
     aiNotes(transcript);
+    checkForQuestion(transcript);
 }
 
 /**
@@ -141,3 +155,56 @@ async function aiNotes(transcript) {
         console.error("Error generating AI notes:", error);
     }
 }
+
+async function checkForQuestion(transcript) {
+    // Only run if detection is enabled
+    if (localStorage.getItem("detectQuestion") !== "true") return;
+    
+    const config = getConfig(); // from your shared code
+    const apiKey = config.apiKey;
+    if (!apiKey) return; // exit if no API key
+  
+    // Build a prompt to ask: does the transcript contain a question? If yes, answer it; if not, reply with "No".
+    const prompt = `Please analyze the following transcript. If it contains a question (e.g., a teacher asking something), answer that question be pretty sensitive even if it might not be a question assume it might be; if not, reply with "No".\n\n${transcript}`;
+  
+    try {
+      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: "gpt-4o",
+          messages: [
+            { role: "system", content: "You are a helpful assistant that extracts and answers questions from transcripts." },
+            { role: "user", content: prompt }
+          ],
+          temperature: 0.5,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to detect question: " + response.statusText);
+      }
+      const data = await response.json();
+      const answer = data.choices[0].message.content.trim();
+
+      console.log(answer);
+      // Check if the answer does NOT start with "No" within the first 6 characters
+      if (answer.slice(0, 6).toLowerCase().indexOf("no") === -1) {
+        // Display the answer in the detector area
+        const detectedElem = document.getElementById("detectedQuestion");
+        detectedElem.innerText = answer;
+        detectedElem.style.display = "block";
+        localStorage.setItem("current_question", answer);
+      }
+    } catch (error) {
+      console.error("Error detecting question:", error);
+    }
+  }
+  
+  // Example: after processing the transcript (like in aiNotes or handleTranscription)
+  // if (localStorage.getItem("detectQuestion") === "true") {
+  //    checkForQuestion(transcript);
+  // }
+  

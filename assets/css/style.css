@@ -187,3 +187,38 @@
     }
   }
   
+  /* Question Detector Styles */
+#questionDetector {
+    background: #e9ecef;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    transition: height 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .detector-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    font-weight: bold;
+    background: #dee2e6;
+  }
+  
+  #detectorContent {
+    padding: 10px;
+    background: #f8f9fa;
+  }
+  
+  /* Initially collapsed: a small slider (e.g. 30px high) */
+  .detector-collapsed {
+    height: 50px;
+  }
+  
+  /* Expanded state (adjust height as needed; here ~120px, about 2/6 of panel height) */
+  .detector-expanded {
+    height: 150px;
+  }
+  

@@ -1,6 +1,19 @@
 // transcriber.js
 import { handleTranscription } from "./breakout.js";
 
+
+const DEFAULT_CONFIG = {
+  calibrationDuration: 5000,
+  speechStartThresholdMultiplier: 2,
+  speechStopThresholdMultiplier: 1.2,
+  speechStartDuration: 2300,
+  silenceDuration: 1900,
+  minSegmentDuration: 1000,
+  minimumRecordingLength: 10000,
+  baseLineMultiplier: 1.4,
+  apiKey: ""
+};
+
 function getConfig() {
   return JSON.parse(localStorage.getItem("settings")) || DEFAULT_CONFIG;
 }
