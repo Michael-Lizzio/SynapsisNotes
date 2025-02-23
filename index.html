@@ -7,11 +7,21 @@
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
+
+    <!-- Pre-loader -->
+    <div id="preloader">
+        <div class="loader"></div>
+    </div>
+
     <header>
         <h1>Symposium Notes</h1>
         <p>Your AI-Powered Note Taking Assistant</p>
-        <button id="startRecord">Start Recording</button>
-        <button id="stopRecord" disabled>Stop Recording</button>
+
+        <div class="header-buttons">
+            <button id="startRecord">Start Recording</button>
+            <button id="stopRecord" disabled>Stop Recording</button>
+            <a href="settings.html" id="settingsIcon" title="Settings">⚙️</a>
+        </div>
     </header>
 
     <div class="container">
@@ -23,7 +33,18 @@
         </div>
     </div>
 
+    <script>
+        // Remove preloader after everything loads
+        window.addEventListener("load", () => {
+            document.getElementById("preloader").style.opacity = "0";
+            setTimeout(() => {
+                document.getElementById("preloader").style.display = "none";
+            }, 500);
+        });
+    </script>
+
     <script type="module" src="assets/js/listener.js"></script>
     <script type="module" src="assets/js/breakout.js"></script>
+
 </body>
 </html>
