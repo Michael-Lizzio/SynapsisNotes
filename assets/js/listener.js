@@ -228,8 +228,9 @@ document.addEventListener("DOMContentLoaded", () => {
           backlogChunks = [];
           backlogTotalDuration = 0;
         } else {
+          sendSegmentEntry(combinedBlob, segmentCounter++);
           // Output the segment directly if no backlog exists
-          createSegmentEntry(segmentBlob, segmentCounter++);
+          // createSegmentEntry(segmentBlob, segmentCounter++);
         }
       }
   

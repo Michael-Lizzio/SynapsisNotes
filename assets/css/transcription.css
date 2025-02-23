@@ -2,25 +2,107 @@ body {
     font-family: Arial, sans-serif;
     margin: 20px;
     background-color: #fff3cd;
-}
-
-h2 {
+  }
+  
+  h2 {
     color: #333;
-}
-
-#transcriptText {
+  }
+  
+  #transcriptText {
     background: white;
     padding: 15px;
     margin-top: 10px;
     border-radius: 5px;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    min-height: 200px;
+  }
+  
+  /* Buttons Container */
+.buttons-container {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
+/* General Button Styles */
 button {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: red;
-    color: white;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
     border: none;
     cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.2s ease-in-out, transform 0.2s;
 }
+
+/* Button Colors */
+#copyTranscript {
+    background: #007bff;
+    color: white;
+}
+
+#copyTranscript:hover {
+    background: #0056b3;
+}
+
+#importTranscript {
+    background: #28a745;
+    color: white;
+}
+
+#importTranscript:hover {
+    background: #1e7e34;
+}
+
+#exportTranscript {
+    background: #6f42c1;
+    color: white;
+}
+
+#exportTranscript:hover {
+    background: #563d7c;
+}
+
+#clearTranscript {
+    background: #dc3545;
+    color: white;
+}
+
+#clearTranscript:hover {
+    background: #a71d2a;
+}
+
+/* Button Click Effect */
+button:active {
+    transform: scale(0.95);
+}
+  
+  /* Notification Styles */
+  #notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+  }
+  
+  .notification {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    opacity: 0;
+    transform: translateX(100%);
+    animation: slideInOut 3s forwards;
+  }
+  
+  @keyframes slideInOut {
+    0% { opacity: 0; transform: translateX(100%); }
+    10% { opacity: 1; transform: translateX(0); }
+    90% { opacity: 1; transform: translateX(0); }
+    100% { opacity: 0; transform: translateX(100%); }
+  }
+  

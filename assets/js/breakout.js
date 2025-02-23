@@ -1,4 +1,6 @@
-import { OPENAI_API_KEY } from "./secrets.js"; // Ensure this file exists and contains your API key
+function getConfig() {
+    return JSON.parse(localStorage.getItem("settings")) || DEFAULT_CONFIG;
+}
 
 const BULLET_POINT_RATIO = 50; // Number of words per bullet point (adjustable)
 
@@ -86,6 +88,14 @@ export function clearNotes() {
  * @param {string} transcript - The transcript text.
  */
 async function aiNotes(transcript) {
+    const settings = getConfig();
+    const apiKey = settings.apiKey;
+
+    if (!apiKey) {
+        console.error("No API key set! Please enter it in the settings.");
+        return;
+    }
+
     const words = transcript.split(/\s+/).length;
     const bulletCount = Math.max(3, Math.floor(words / BULLET_POINT_RATIO));
 
@@ -105,7 +115,7 @@ async function aiNotes(transcript) {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${OPENAI_API_KEY}`,
+                "Authorization": `Bearer ${apiKey}`,
             },
             body: JSON.stringify({
                 model: "gpt-4o",

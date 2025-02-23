@@ -1,42 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notes</title>
-    <link rel="stylesheet" href="assets/css/notes.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notes</title>
+  <link rel="stylesheet" href="assets/css/notes.css" />
 </head>
 <body>
-    <h2>AI-Generated Notes</h2>
-    <ul id="notesList"></ul>
+  <!-- Notification Container -->
+  <div id="notification-container"></div>
+
+  <h2>AI-Generated Notes</h2>
+  <ul id="notesList"></ul>
+  <div class="buttons-container">
+    <button id="copyNotes">Copy</button>
+    <button id="importNotes">Import</button>
+    <button id="exportNotes">Export</button>
     <button id="clearNotes">Clear Notes</button>
+  </div>
+  <!-- Hidden file input for import -->
+  <input type="file" id="notesFileInput" accept=".txt" style="display: none;">
 
-    <script>
-        function loadNotes() {
-            const notesContainer = document.getElementById("notesList");
-            notesContainer.innerHTML = ""; 
-            const notes = localStorage.getItem("notes") || "";
-            const notesArray = notes.split("\n").filter(note => note.trim());
-            notesArray.forEach(note => {
-                const li = document.createElement("li");
-                li.textContent = note;
-                notesContainer.appendChild(li);
-            });
-        }
-
-        document.getElementById("clearNotes").addEventListener("click", () => {
-            localStorage.removeItem("notes");
-            loadNotes();
-        });
-
-        // Listen for localStorage changes from other pages
-        window.addEventListener("storage", (event) => {
-            if (event.key === "notes") {
-                loadNotes();
-            }
-        });
-
-        loadNotes(); // Initial load
-    </script>
+  <script src="assets/js/notes.js"></script>
 </body>
 </html>

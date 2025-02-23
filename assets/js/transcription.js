@@ -1,46 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Transcription</title>
-  <link rel="stylesheet" href="assets/css/transcription.css" />
-</head>
-<body>
-  <h2>Transcription</h2>
-  <div id="transcriptText"></div>
-  <div class="buttons-container">
-    <button id="copyTranscript">Copy</button>
-    <button id="importTranscript">Import</button>
-    <button id="exportTranscript">Export</button>
-    <button id="clearTranscript">Clear Transcript</button>
-  </div>
-  <!-- Hidden file input for import -->
-  <input type="file" id="transcriptFileInput" accept=".txt" style="display: none;">
-
-  <script>
-    function loadTranscript() {
-      document.getElementById("transcriptText").textContent = localStorage.getItem("transcript") || "No transcript available.";
+    // Show a custom notification that slides in/out from the top-right
+    function showNotification(message) {
+      const container = document.getElementById("notification-container");
+      if (!container) return;
+      const notification = document.createElement("div");
+      notification.className = "notification";
+      notification.textContent = message;
+      container.appendChild(notification);
+      setTimeout(() => {
+        notification.remove();
+      }, 3000);
     }
-
-    // Clear transcript
+  
+    function loadTranscript() {
+        document.getElementById("transcriptText").textContent = localStorage.getItem("transcript") || "No transcript available.";
+      }
+  
     document.getElementById("clearTranscript").addEventListener("click", () => {
       localStorage.removeItem("transcript");
       loadTranscript();
+      showNotification("Transcript cleared.");
     });
-
-    // Copy transcript to clipboard
+  
     document.getElementById("copyTranscript").addEventListener("click", () => {
       const transcript = localStorage.getItem("transcript") || "";
       navigator.clipboard.writeText(transcript)
-        .then(() => alert("Transcript copied to clipboard!"))
-        .catch(() => alert("Failed to copy transcript."));
+        .then(() => showNotification("Transcript copied to clipboard!"))
+        .catch(() => showNotification("Failed to copy transcript."));
     });
-
-    // Import transcript from a txt file
+  
     document.getElementById("importTranscript").addEventListener("click", () => {
       document.getElementById("transcriptFileInput").click();
     });
+  
     document.getElementById("transcriptFileInput").addEventListener("change", (event) => {
       const file = event.target.files[0];
       if (!file) return;
@@ -49,12 +40,11 @@
         const text = e.target.result;
         localStorage.setItem("transcript", text);
         loadTranscript();
-        alert("Transcript imported successfully!");
+        showNotification("Transcript imported successfully!");
       };
       reader.readAsText(file);
     });
-
-    // Export transcript to a txt file
+  
     document.getElementById("exportTranscript").addEventListener("click", () => {
       const transcript = localStorage.getItem("transcript") || "";
       const blob = new Blob([transcript], { type: "text/plain" });
@@ -67,13 +57,11 @@
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     });
-
-    // Listen for localStorage changes from other pages
+  
+    // Update transcript if changes occur in other tabs
     window.addEventListener("storage", (event) => {
       if (event.key === "transcript") loadTranscript();
     });
-
-    loadTranscript(); // Initial load
-  </script>
-</body>
-</html>
+  
+    loadTranscript();
+  

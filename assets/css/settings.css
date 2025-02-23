@@ -1,0 +1,170 @@
+/* CSS Variables for Consistent Styling */
+:root {
+    --primary-color: #007bff;
+    --primary-dark: #0056b3;
+    --background-color: #f9f9f9;
+    --card-bg: #ffffff;
+    --text-color: #333;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition-speed: 0.3s;
+    --font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  
+  /* Global Styles */
+  body {
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 20px;
+    background: var(--background-color);
+    color: var(--text-color);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  h2 {
+    margin-bottom: 20px;
+    font-size: 2em;
+  }
+  
+  /* Form Container */
+  form {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 30px;
+    max-width: 500px;
+    width: 100%;
+    text-align: left;
+  }
+  
+  /* Form Groups */
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    transition: border-color var(--transition-speed);
+  }
+  
+  .form-group input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+  }
+  
+  /* Tooltip Icon Styles */
+  .tooltip-icon {
+    margin-left: 5px;
+    color: var(--primary-color);
+    cursor: pointer;
+    position: relative;
+    border-bottom: 1px dotted var(--primary-color);
+  }
+  
+  .tooltip-icon:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%; /* Position above the icon */
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    z-index: 10;
+    opacity: 0;
+    animation: fadeInTooltip 0.3s forwards;
+  }
+  
+  /* Tooltip Fade-In Animation */
+  @keyframes fadeInTooltip {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  /* Horizontal Rule */
+  hr {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 30px 0;
+  }
+  
+  /* Button Group */
+  .button-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  
+  button {
+    padding: 12px 20px;
+    font-size: 1em;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background var(--transition-speed), transform 0.2s ease;
+  }
+  
+  button[type="submit"] {
+    background-color: var(--primary-color);
+    color: #fff;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+  }
+  
+  button#resetSettings {
+    background-color: #e0e0e0;
+    color: var(--text-color);
+  }
+  
+  button#resetSettings:hover {
+    background-color: #ccc;
+    transform: translateY(-2px);
+  }
+  
+  /* Back Button */
+  #backButton {
+    display: block;
+    margin-top: 30px;
+    font-size: 1em;
+    color: var(--primary-color);
+    text-decoration: none;
+  }
+  
+  #backButton:hover {
+    text-decoration: underline;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 480px) {
+    form {
+      padding: 20px;
+    }
+    
+    .button-group {
+      flex-direction: column;
+    }
+    
+    button {
+      width: 100%;
+      margin: 5px 0;
+    }
+  }
+  

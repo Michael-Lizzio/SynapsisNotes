@@ -6,23 +6,45 @@
     <title>Symposium Notes - AI Note Taking Tool</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/assistantButton.css">
+
 </head>
 <body>
-    <header>
-        <h1>Symposium Notes</h1>
-        <p>Your AI-Powered Note Taking Assistant</p>
-        <button id="startRecord">Start Recording</button>
-        <button id="stopRecord" disabled>Stop Recording</button>
-    </header>
+  <!-- Preloader -->
+  <div id="preloader">
+    <div class="loader"></div>
+  </div>
 
-    <div class="container">
-        <div class="left-panel">
-            <iframe src="notes.html" id="notesFrame"></iframe>
-        </div>
-        <div class="right-panel">
-            <iframe src="transcription.html" id="transcriptionFrame"></iframe>
-        </div>
+  <header>
+    <h1>Symposium Notes</h1>
+    <p>Your AI-Powered Note Taking Assistant</p>
+    <div class="header-buttons">
+      <button id="startRecord">Start Recording</button>
+      <button id="stopRecord" disabled>Stop Recording</button>
+      <a href="settings.html" id="settingsIcon" title="Settings">⚙️</a>
     </div>
+  </header>
+  <main class="container">
+    <section class="left-panel">
+      <iframe src="notes.html" id="notesFrame"></iframe>
+    </section>
+    <section class="right-panel">
+      <iframe src="transcription.html" id="transcriptionFrame"></iframe>
+    </section>
+  </main>
+
+  <script>
+    // Remove preloader after content loads
+    window.addEventListener("load", () => {
+      const preloader = document.getElementById("preloader");
+      preloader.style.opacity = "0";
+      setTimeout(() => {
+        preloader.style.display = "none";
+      }, 500);
+    });
+  </script>
+
+  <script type="module" src="assets/js/listener.js"></script>
+  <script type="module" src="assets/js/breakout.js"></script>
 
     <div id="assistantButton">
         <button onclick="showPopup()" style="background: transparent; border: none; padding: 0;">

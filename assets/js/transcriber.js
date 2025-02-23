@@ -1,12 +1,24 @@
 // transcriber.js
-import { OPENAI_API_KEY } from "./secrets.js";
 import { handleTranscription } from "./breakout.js";
+
+function getConfig() {
+  return JSON.parse(localStorage.getItem("settings")) || DEFAULT_CONFIG;
+}
 
 /**
  * Transcribes an audio file by sending it to the OpenAI API.
  * @param {Blob} audioFile - The audio file (e.g., recorded segment) to transcribe.
  */
 export async function transcribeAudioFile(audioFile) {
+  const settings = getConfig();
+    const apiKey = settings.apiKey;
+
+    if (!apiKey) {
+        console.error("No API key set! Please enter it in the settings.");
+        return;
+    }
+
+
   // Prepare form data with the audio file and model specification
   const formData = new FormData();
   formData.append("file", audioFile, "audio.webm");
@@ -16,7 +28,7 @@ export async function transcribeAudioFile(audioFile) {
     const response = await fetch("https://api.openai.com/v1/audio/transcriptions", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${OPENAI_API_KEY}`,
+        "Authorization": `Bearer ${apiKey}`,
       },
       body: formData,
     });
