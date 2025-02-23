@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Symposium Notes - AI Note Taking Tool</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
-  <!-- Optionally include a Google Fonts link for a custom font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symposium Notes - AI Note Taking Tool</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/assistantButton.css">
+
 </head>
 <body>
   <!-- Preloader -->
@@ -23,7 +23,6 @@
       <a href="settings.html" id="settingsIcon" title="Settings">⚙️</a>
     </div>
   </header>
-
   <main class="container">
     <section class="left-panel">
       <iframe src="notes.html" id="notesFrame"></iframe>
@@ -46,5 +45,38 @@
 
   <script type="module" src="assets/js/listener.js"></script>
   <script type="module" src="assets/js/breakout.js"></script>
+
+    <div id="assistantButton">
+        <button onclick="showPopup()" style="background: transparent; border: none; padding: 0;">
+            <img src="assets/images/Bricky.png" alt="Chat with Assistant" style="width: 75px; height: auto;">
+        </button>
+        <div id="assistantPopup" style="display: none;">
+            <button id="closePopup" onclick="closePopup()" style="position: absolute; top: 5px; right: 5px;">X</button>
+            <iframe id="assistantFrame" src="" style="margin-top: 30px;"></iframe>
+        </div>
+    </div>
+
+    <script type="module" src="assets/js/listener.js"></script>
+    <script type="module" src="assets/js/breakout.js"></script>
+    <script>
+        function showPopup() {
+            const popup = document.getElementById("assistantPopup");
+            const frame = document.getElementById("assistantFrame");
+            if (popup.style.display === "none" || popup.style.display === "") {
+                frame.src = "popup_assistant.html";
+                popup.style.display = "block";
+                popup.style.bottom = "20px"; // Move the popup to the bottom
+            } else {
+                popup.style.display = "none";
+                frame.src = "";
+            }
+        }
+
+        function closePopup() {
+            const popup = document.getElementById("assistantPopup");
+            popup.style.display = "none";
+            document.getElementById("assistantFrame").src = "";
+        }
+    </script>
 </body>
 </html>
