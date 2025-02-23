@@ -1,50 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Symposium Notes - AI Note Taking Tool</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Symposium Notes - AI Note Taking Tool</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <!-- Optionally include a Google Fonts link for a custom font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
 </head>
 <body>
+  <!-- Preloader -->
+  <div id="preloader">
+    <div class="loader"></div>
+  </div>
 
-    <!-- Pre-loader -->
-    <div id="preloader">
-        <div class="loader"></div>
+  <header>
+    <h1>Symposium Notes</h1>
+    <p>Your AI-Powered Note Taking Assistant</p>
+    <div class="header-buttons">
+      <button id="startRecord">Start Recording</button>
+      <button id="stopRecord" disabled>Stop Recording</button>
+      <a href="settings.html" id="settingsIcon" title="Settings">⚙️</a>
     </div>
+  </header>
 
-    <header>
-        <h1>Symposium Notes</h1>
-        <p>Your AI-Powered Note Taking Assistant</p>
+  <main class="container">
+    <section class="left-panel">
+      <iframe src="notes.html" id="notesFrame"></iframe>
+    </section>
+    <section class="right-panel">
+      <iframe src="transcription.html" id="transcriptionFrame"></iframe>
+    </section>
+  </main>
 
-        <div class="header-buttons">
-            <button id="startRecord">Start Recording</button>
-            <button id="stopRecord" disabled>Stop Recording</button>
-            <a href="settings.html" id="settingsIcon" title="Settings">⚙️</a>
-        </div>
-    </header>
+  <script>
+    // Remove preloader after content loads
+    window.addEventListener("load", () => {
+      const preloader = document.getElementById("preloader");
+      preloader.style.opacity = "0";
+      setTimeout(() => {
+        preloader.style.display = "none";
+      }, 500);
+    });
+  </script>
 
-    <div class="container">
-        <div class="left-panel">
-            <iframe src="notes.html" id="notesFrame"></iframe>
-        </div>
-        <div class="right-panel">
-            <iframe src="transcription.html" id="transcriptionFrame"></iframe>
-        </div>
-    </div>
-
-    <script>
-        // Remove preloader after everything loads
-        window.addEventListener("load", () => {
-            document.getElementById("preloader").style.opacity = "0";
-            setTimeout(() => {
-                document.getElementById("preloader").style.display = "none";
-            }, 500);
-        });
-    </script>
-
-    <script type="module" src="assets/js/listener.js"></script>
-    <script type="module" src="assets/js/breakout.js"></script>
-
+  <script type="module" src="assets/js/listener.js"></script>
+  <script type="module" src="assets/js/breakout.js"></script>
 </body>
 </html>

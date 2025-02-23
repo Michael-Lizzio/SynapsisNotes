@@ -1,33 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings</title>
-    <link rel="stylesheet" href="assets/css/settings.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings</title>
+  <link rel="stylesheet" href="assets/css/settings.css" />
 </head>
 <body>
-    <h2>Settings</h2>
-    
-    <form id="settingsForm">
-        <label>Calibration Duration (ms): <input type="number" id="calibrationDuration"></label>
-        <label>Speech Start Threshold Multiplier: <input type="number" step="0.1" id="speechStartThresholdMultiplier"></label>
-        <label>Speech Stop Threshold Multiplier: <input type="number" step="0.1" id="speechStopThresholdMultiplier"></label>
-        <label>Speech Start Duration (ms): <input type="number" id="speechStartDuration"></label>
-        <label>Silence Duration (ms): <input type="number" id="silenceDuration"></label>
-        <label>Minimum Segment Duration (ms): <input type="number" id="minSegmentDuration"></label>
-        <label>Minimum Recording Length (ms): <input type="number" id="minimumRecordingLength"></label>
-        <label>Baseline Multiplier: <input type="number" step="0.1" id="baseLineMultiplier"></label>
+  <h2>Settings</h2>
+  
+  <form id="settingsForm">
+    <div class="form-group">
+      <label for="calibrationDuration">
+        Calibration Duration (ms):
+        <span class="tooltip-icon" data-tooltip="ms for initial baseline volume calibration">?</span>
+      </label>
+      <input type="number" id="calibrationDuration" />
+    </div>
+    <div class="form-group">
+      <label for="speechStartThresholdMultiplier">
+        Speech Start Threshold Multiplier:
+        <span class="tooltip-icon" data-tooltip="multiplier above baseline to consider speech start">?</span>
+      </label>
+      <input type="number" step="0.1" id="speechStartThresholdMultiplier" />
+    </div>
+    <div class="form-group">
+      <label for="speechStopThresholdMultiplier">
+        Speech Stop Threshold Multiplier:
+        <span class="tooltip-icon" data-tooltip="multiplier above baseline to consider speech still ongoing (if below, it's silence)">?</span>
+      </label>
+      <input type="number" step="0.1" id="speechStopThresholdMultiplier" />
+    </div>
+    <div class="form-group">
+      <label for="speechStartDuration">
+        Speech Start Duration (ms):
+        <span class="tooltip-icon" data-tooltip="ms of sustained loudness above start threshold to confirm speech">?</span>
+      </label>
+      <input type="number" id="speechStartDuration" />
+    </div>
+    <div class="form-group">
+      <label for="silenceDuration">
+        Silence Duration (ms):
+        <span class="tooltip-icon" data-tooltip="ms of sustained silence (below stop threshold) before ending a segment">?</span>
+      </label>
+      <input type="number" id="silenceDuration" />
+    </div>
+    <div class="form-group">
+      <label for="minSegmentDuration">
+        Minimum Segment Duration (ms):
+        <span class="tooltip-icon" data-tooltip="discard very short segments">?</span>
+      </label>
+      <input type="number" id="minSegmentDuration" />
+    </div>
+    <div class="form-group">
+      <label for="minimumRecordingLength">
+        Minimum Recording Length (ms):
+        <span class="tooltip-icon" data-tooltip="ms, minimum total length for a finalized recording segment">?</span>
+      </label>
+      <input type="number" id="minimumRecordingLength" />
+    </div>
+    <div class="form-group">
+      <label for="baseLineMultiplier">
+        Baseline Multiplier:
+        <span class="tooltip-icon" data-tooltip="Not used">?</span>
+      </label>
+      <input type="number" step="0.1" id="baseLineMultiplier" />
+    </div>
 
-        <hr>
-        <label>OpenAI API Key: <input type="text" id="apiKey" placeholder="Enter API Key"></label>
+    <hr />
 
-        <button type="submit">Save Settings</button>
-        <button type="button" id="resetSettings">Reset to Default</button>
-    </form>
+    <div class="form-group">
+      <label for="apiKey">
+        OpenAI API Key:
+        <span class="tooltip-icon" data-tooltip="Your OpenAI API key for authentication">?</span>
+      </label>
+      <input type="text" id="apiKey" placeholder="Enter API Key" />
+    </div>
 
-    <a href="index.html" id="backButton">← Back to Home</a>
+    <div class="button-group">
+      <button type="submit">Save Settings</button>
+      <button type="button" id="resetSettings">Reset to Default</button>
+    </div>
+  </form>
 
-    <script src="assets/js/settings.js"></script>
+  <a href="index.html" id="backButton">← Back to Home</a>
+
+  <script src="assets/js/settings.js"></script>
 </body>
 </html>
