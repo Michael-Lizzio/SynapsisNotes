@@ -25,8 +25,21 @@
   </header>
   <main class="container">
     <section class="left-panel">
-      <iframe src="notes.html" id="notesFrame"></iframe>
-    </section>
+        <!-- Question Detector Dropdown -->
+        <div id="questionDetector" class="detector-collapsed">
+          <div class="detector-header">
+            <span>Question Detector</span>
+            <button id="toggleDetector">▼</button>
+          </div>
+          <div id="detectorContent" style="display: none;">
+            <!-- This area will show the detected question (if any) -->
+             
+            <div id="detectedQuestion" style="display: none;"></div>
+          </div>
+        </div>
+        <iframe src="notes.html" id="notesFrame"></iframe>
+      </section>
+      
     <section class="right-panel">
       <iframe src="transcription.html" id="transcriptionFrame"></iframe>
     </section>
@@ -43,8 +56,11 @@
     });
   </script>
 
-  <script type="module" src="assets/js/listener.js"></script>
-  <script type="module" src="assets/js/breakout.js"></script>
+    <script src="assets/js/questionDetector.js"></script>
+
+
+    <script type="module" src="assets/js/listener.js"></script>
+    <script type="module" src="assets/js/breakout.js"></script>
 
     <div id="assistantButton">
         <button onclick="showPopup()" style="background: transparent; border: none; padding: 0;">

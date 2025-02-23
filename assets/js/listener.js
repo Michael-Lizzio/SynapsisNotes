@@ -60,10 +60,19 @@ document.addEventListener("DOMContentLoaded", () => {
         const source = audioContext.createMediaStreamSource(stream);
         source.connect(analyser);
   
-        // 3) Initialize calibration
-        recordingStartTime = performance.now();
-        calibrating = true;
-        calibrationSamples = [];
+        // Get settings from localStorage
+        const settings = JSON.parse(localStorage.getItem("settings")) || DEFAULT_CONFIG;
+        // Use the stored baseline value instead of calibrating live
+        if (settings.baseLineMultiplier) {
+          baselineVolume = settings.baseLineMultiplier;
+          calibrating = false;
+          console.log("Using stored baseline volume:", baselineVolume);
+        } else {
+          // Fallback: if no baseline stored, you could either run a calibration routine or prompt the user
+          calibrating = true;
+          calibrationSamples = [];
+          recordingStartTime = performance.now();
+        }
   
         isRecording = true;
   
@@ -185,60 +194,56 @@ document.addEventListener("DOMContentLoaded", () => {
     function finalizeSegment() {
       // Discard segment if sustained speech was never confirmed
       if (!sustainedSpeechConfirmed) {
-        console.log("Candidate speech was not sustained. Discarding segment.");
-        candidateStartTime = null;
-        sustainedSpeechConfirmed = false;
-        segmentChunks = [];
-        return;
+          console.log("Candidate speech was not sustained. Discarding segment.");
+          candidateStartTime = null;
+          sustainedSpeechConfirmed = false;
+          segmentChunks = [];
+          return;
       }
   
       // Calculate the duration of this segment
       const segmentDuration = performance.now() - candidateStartTime;
       const segmentBlob = new Blob(segmentChunks, { type: "audio/webm" });
   
+      let combinedBlob = segmentBlob; // Define combinedBlob here
+  
       // If the segment is shorter than the minimum recording length, add it to the backlog
       if (segmentDuration < config.minimumRecordingLength) {
-        console.log(`Segment duration ${segmentDuration.toFixed(0)}ms is less than minimum recording length. Adding to backlog.`);
-        backlogChunks.push({ blob: segmentBlob, duration: segmentDuration });
-        backlogTotalDuration += segmentDuration;
+          console.log(`Segment duration ${segmentDuration.toFixed(0)}ms is less than minimum recording length. Adding to backlog.`);
+          backlogChunks.push({ blob: segmentBlob, duration: segmentDuration });
+          backlogTotalDuration += segmentDuration;
   
-        // If the accumulated backlog meets or exceeds the minimum, combine and output it
-        if (backlogTotalDuration >= config.minimumRecordingLength) {
-          console.log(`Backlog accumulated duration ${backlogTotalDuration.toFixed(0)}ms meets minimum. Combining backlog.`);
-          let combinedBlobParts = [];
-          backlogChunks.forEach(item => combinedBlobParts.push(item.blob));
-          const combinedBlob = new Blob(combinedBlobParts, { type: "audio/webm" });
-          createSegmentEntry(combinedBlob, segmentCounter++);
-          backlogChunks = [];
-          backlogTotalDuration = 0;
-        }
+          // If the accumulated backlog meets or exceeds the minimum, combine and output it
+          if (backlogTotalDuration >= config.minimumRecordingLength) {
+              console.log(`Backlog accumulated duration ${backlogTotalDuration.toFixed(0)}ms meets minimum. Combining backlog.`);
+              let combinedBlobParts = [];
+              backlogChunks.forEach(item => combinedBlobParts.push(item.blob));
+              combinedBlob = new Blob(combinedBlobParts, { type: "audio/webm" });
+              backlogChunks = [];
+              backlogTotalDuration = 0;
+          }
       } else {
-        // If this segment is long enough, check if there's a backlog to prepend
-        if (backlogTotalDuration > 0) {
-          console.log("Appending backlog to current segment.");
-          let combinedBlobParts = [];
-          backlogChunks.forEach(item => combinedBlobParts.push(item.blob));
-          combinedBlobParts.push(segmentBlob);
-          const combinedBlob = new Blob(combinedBlobParts, { type: "audio/webm" });
-          
-          // createSegmentEntry(combinedBlob, segmentCounter++);
-          sendSegmentEntry(combinedBlob, segmentCounter++);
-
-
-          backlogChunks = [];
-          backlogTotalDuration = 0;
-        } else {
-          sendSegmentEntry(combinedBlob, segmentCounter++);
-          // Output the segment directly if no backlog exists
-          // createSegmentEntry(segmentBlob, segmentCounter++);
-        }
+          // If this segment is long enough, check if there's a backlog to prepend
+          if (backlogTotalDuration > 0) {
+              console.log("Appending backlog to current segment.");
+              let combinedBlobParts = [];
+              backlogChunks.forEach(item => combinedBlobParts.push(item.blob));
+              combinedBlobParts.push(segmentBlob);
+              combinedBlob = new Blob(combinedBlobParts, { type: "audio/webm" });
+              backlogChunks = [];
+              backlogTotalDuration = 0;
+          }
       }
+  
+      // Send the final segment for transcription
+      sendSegmentEntry(combinedBlob, segmentCounter++);
   
       // Reset candidate and segment states
       candidateStartTime = null;
       sustainedSpeechConfirmed = false;
       segmentChunks = [];
-    }
+  }
+  
     
 
     // ─────────────────────────────────────────────────────────
